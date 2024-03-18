@@ -69,6 +69,18 @@ class BaseClass:
         log.logger.info("Getting all elements from the list of elements " + str(locator))
         return elements
 
+    def get_web_ele(self, locator):
+        if str(locator).endswith("xpath"):
+            element = self.driver.find_element(By.XPATH, confreader.read_config("Locators", locator))
+
+        elif str(locator).endswith("Name"):
+            element = self.driver.find_element(By.CLASS_NAME, confreader.read_config("Locators", locator))
+
+        elif str(locator).endswith("id"):
+            element = self.driver.find_element(By.ID, confreader.read_config("Locators", locator))
+        log.logger.info("getting web element " + str(locator))
+        return element
+
     def is_clickable(self, locator):
         if str(locator).endswith("xpath"):
             self.driver.find_element(By.XPATH, confreader.read_config("Locators", locator)).is_enabled()

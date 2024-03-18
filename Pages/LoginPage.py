@@ -1,6 +1,10 @@
+import logging
 import time
-
 from Pages.BasePage import BaseClass
+from Utilities import email_utill
+from Utilities.LogUtil import Logger
+
+log = Logger(__name__, logging.INFO)
 
 
 class LoginClass(BaseClass):
@@ -30,3 +34,22 @@ class LoginClass(BaseClass):
 
             self.wait_Until_element_visible("toastErrMsg_xpath")
             assert self.get_text("toastErrMsg_xpath") == "Invalid email or password"
+
+    def verify_title_of_the_Page(self, actualTitle):
+        title = self.driver.title
+        assert title == actualTitle
+
+    def forgetPassword(self, email_id):
+        self.click("forgetPas_xpath")
+        self.input_text("InputEmailToGetPass_xpath", email_id)
+        self.click("resetPass_xpath")
+        self.wait_Until_element_visible("resetPass_toastMsg_xpath")
+        toast_msg = self.get_text("resetPass_toastMsg_xpath")
+        assert toast_msg == "If your email exists in our database, a password reset link will be sent to your email"
+        time.sleep(5)
+        resetPassLink = email_utill.gmail_verify("credftest@gmail.com", "exxo roos pemw lgxr", "noreply@credflow.in",
+                                                 "credftest@gmail.com", "Forgot Password")
+        log.logger.info(f"getting verification link from email {email_id} and the link is {resetPassLink}")
+        self.click(resetPassLink[0])
+
+        time.sleep(10)
