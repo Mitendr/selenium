@@ -53,3 +53,7 @@ class LoginClass(BaseClass):
         self.click(resetPassLink[0])
 
         time.sleep(10)
+
+
+
+

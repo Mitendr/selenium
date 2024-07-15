@@ -1,13 +1,16 @@
 import openpyxl
+import os
 
+script_dir = os.path.dirname(os.path.realpath(__file__))
+parent_dir = os.path.abspath(os.path.join(script_dir, os.pardir))
+file_path = os.path.join(parent_dir, "ExcelSheet", "testdata.xlsx")
 
 def get_data(sheetName):
-    workbook = openpyxl.load_workbook("..//ExcelSheet//testdata.xlsx")
+    workbook = openpyxl.load_workbook(file_path)
     sheet = workbook[sheetName]
     totalrows = sheet.max_row
     totalcols = sheet.max_column
-    print("total cols are ", str(totalcols))
-    print("total rows are ", str(totalrows))
+
     mainList = []
 
     for i in range(2, totalrows + 1):
@@ -21,16 +24,16 @@ def get_data(sheetName):
 
 
 def write_data_to_excel(sheetName, *args):
-    workbook = openpyxl.load_workbook("..//ExcelSheet//testdata.xlsx")
+    workbook = openpyxl.load_workbook(file_path)
     sheet = workbook[sheetName]
 
     sheet.append(list(args))
 
-    workbook.save("..//ExcelSheet//testdata.xlsx")
+    workbook.save(file_path)
 
 
 def get_last_row_data(sheetName):
-    workbook = openpyxl.load_workbook('..//ExcelSheet//testdata.xlsx')
+    workbook = openpyxl.load_workbook(file_path)
     sheet = workbook[sheetName]
 
     # Get the values from the last row
